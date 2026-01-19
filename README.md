@@ -1,4 +1,4 @@
-KeeCrypt v1.0 🔐
+KeeCrypt v1.2 🔐
 
 KeeCrypt is a security-hardened engine developed in C, focused on Deterministic Key Derivation and identity protection without credential storage (Stateless Auth).
 
