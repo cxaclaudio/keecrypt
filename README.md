@@ -1,12 +1,15 @@
 
 **KeeCrypt v1.2**
 
+
 KeeCrypt is a security-hardened engine developed in C, focused on Deterministic Key Derivation and identity protection without credential storage (Stateless Auth).
 
 This project was designed to serve as the cryptographic core for applications requiring total anonymity.
 
+
 **Security Hardening**
-  
+
+
 Unlike simple hashing engines, KeeCrypt now implements Key Stretching to protect against modern hardware-accelerated attacks:
 
 **1.  PBKDF2-HMAC-SHA256**: Instead of a single hash pass, the engine now performs thousands of iterations using the user's ID as a unique Salt. This makes brute-force attacks via GPU or ASIC computationally expensive.
@@ -20,13 +23,16 @@ Unlike simple hashing engines, KeeCrypt now implements Key Stretching to protect
 
 **Entropy Statistics**
 
+
 The system offers significant resistance against brute-force attacks:
 
 Search Space: ~1.58 x 10¹⁹ combinations.
 
 Offline Resistance: Estimated 25 years to crack via high-end GPU under ideal attack conditions for the minimum required complexity.
 
+
 **Getting Started**
+
 
 Prerequisites
 The engine depends on the OpenSSL development library.
@@ -37,7 +43,9 @@ $ sudo apt update
 
 $ sudo apt install build-essential libssl-dev -y
 
+
 **Installation and Build**
+
 
 Clone the repository:
 
@@ -49,7 +57,9 @@ Compile using the provided Makefile:
 
 $ make
 
+
 **Usage**
+
 
 $ ./keecrypt
 
