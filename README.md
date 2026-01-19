@@ -1,11 +1,15 @@
+<h1>
 **KeeCrypt v1.2**
+<h1>
 
 KeeCrypt is a security-hardened engine developed in C, focused on Deterministic Key Derivation and identity protection without credential storage (Stateless Auth).
 
 This project was designed to serve as the cryptographic core for applications requiring total anonymity.
 
+<h1>
 **Security Hardening**
-
+<h1>
+  
 Unlike simple hashing engines, KeeCrypt now implements Key Stretching to protect against modern hardware-accelerated attacks:
 
 **1.  PBKDF2-HMAC-SHA256**: Instead of a single hash pass, the engine now performs thousands of iterations using the user's ID as a unique Salt. This makes brute-force attacks via GPU or ASIC computationally expensive.
