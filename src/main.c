@@ -5,6 +5,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <openssl/sha.h>
+#include <openssl/evp.h>
+#include <openssl/crypto.h>
 #include "../include/keecrypt.h"
 
 #define MAX_PWD_INPUT 128
@@ -50,11 +52,16 @@ bool validate_id(const char *id) {
 }
 
 void generate_master_key(const char *pwd, const char *id, unsigned char *output) {
-    char combined[MAX_PWD_INPUT + ID_INPUT_LEN];
-    
-    snprintf(combined, sizeof(combined), "%s%s", pwd, id);
-    SHA256((unsigned char*)combined, strlen(combined), output);
-    memset(combined, 0, sizeof(combined));
+
+    int it = 100000; 
+    int salt_len = strlen(id);
+
+    if (!PKCS5_PBKDF2_HMAC(pwd, strlen(pwd), 
+                           (unsigned char*)id, salt_len, 
+                           it, EVP_sha256(), 
+                           KEY_SIZE, output)) {
+        fprintf(stderr, "Error to generate the key with PBKDF2\n");
+    }
 }
 
 int main() {
@@ -63,7 +70,7 @@ int main() {
     char id[ID_INPUT_LEN];        
     unsigned char master_key[KEY_SIZE];
 
-    printf("=== KeeCrypt Engine 1.0 ===\n");
+    printf("=== KeeCrypt Engine 1.2 ===\n");
 
     printf("Password (min 8 chars, 1 capital, 1 symbol): ");
     fflush(stdout); 
@@ -92,8 +99,8 @@ int main() {
         printf("\n[ERROR] Invalid credentials.\n");
     }
     
-    memset(password, 0, sizeof(password));
-    memset(master_key, 0, sizeof(master_key));
+    OPENSSL_cleanse(password, sizeof(password));
+    OPENSSL_cleanse(master_key, sizeof(master_key));
 
     return 0;
 }

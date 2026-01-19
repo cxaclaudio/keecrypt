@@ -1,20 +1,18 @@
 KeeCrypt v1.0 🔐
 
-KeeCrypt is a minimalist security engine developed in C, focused on Deterministic Key Derivation and identity protection without credential storage (Stateless Auth).
+KeeCrypt is a security-hardened engine developed in C, focused on Deterministic Key Derivation and identity protection without credential storage (Stateless Auth).
 
 This project was designed to serve as the cryptographic core for applications requiring total anonymity.
 
-🛡️ Security Architecture
+🛡️ Security Hardening (New in v1.2)
 
-KeeCrypt utilizes a Two-Step Validation approach to mitigate information leakage and side-channel attacks:
+Unlike simple hashing engines, KeeCrypt now implements Key Stretching to protect against modern hardware-accelerated attacks:
 
-Silent Input: Uses the Linux termios API to disable terminal echo during password entry, preventing shoulder surfing.
+1.  PBKDF2-HMAC-SHA256: Instead of a single hash pass, the engine now performs thousands of iterations using the user's ID as a unique Salt. This makes brute-force attacks via GPU or ASIC computationally expensive.
+2.  Deterministic Salt: The 3-character ID acts as a cryptographic salt, ensuring that identical passwords produce different Master Keys across different IDs.
+3.  Memory Sanitization: Uses "OPENSSL_cleanse" to overwrite sensitive buffers in RAM. Unlike "memset", this function is guaranteed not to be optimized away by the compiler.
+4.  Atomic Validation: Protects against information leakage by validating both Password and ID before providing a generic success/error verdict.
 
-Atomic Validation: The program validates password complexity and ID format but only issues a final verdict after both are entered. This prevents an attacker from knowing which specific field was incorrect.
-
-Robust Hashing: Employs SHA-256 (via OpenSSL) to fuse the Password and the ID into a unique 256-bit Master Key.
-
-Memory Sanitization: Implements buffer clearing via memset to ensure secrets do not remain in RAM after processing.
 
 📊 Entropy Statistics
 
