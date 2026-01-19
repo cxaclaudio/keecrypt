@@ -30,15 +30,19 @@ The engine depends on the OpenSSL development library.
 On Ubuntu/Debian distro:
 
 $ sudo apt update
+
 $ sudo apt install build-essential libssl-dev -y
 
 Installation and Build
+
 Clone the repository:
 
 $ git clone https://github.com/cxaclaudio/keecrypt.git
+
 $ cd keecrypt
 
 Compile using the provided Makefile:
+
 $ make
 
 🛠️ Usage
